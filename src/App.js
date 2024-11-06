@@ -1,6 +1,12 @@
 import { useState } from "react";
-import NavBar from "./NavBar";
+import NavBar from "./NavBar/NavBar";
 import Main from "./Main";
+import NumResults from "./NavBar/NumResults";
+import Search from "./NavBar/Search";
+import MoviesList from "./Movies/MoviesList";
+import Box from "./Components/Box";
+import WatchBoxSummary from "./Watched/WatchBoxSummary";
+import WatchBoxList from "./Watched/WatchBoxList";
 
 const tempMovieData = [
   {
@@ -25,7 +31,6 @@ const tempMovieData = [
       "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
   },
 ];
-
 const tempWatchedData = [
   {
     imdbID: "tt1375666",
@@ -51,11 +56,23 @@ const tempWatchedData = [
 
 export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
 
   return (
     <>
-      <NavBar movies={movies} />
-      <Main movies={movies} tempWatchedData={tempWatchedData} />
+      <NavBar>
+        <Search />
+        <NumResults movies={movies} />
+      </NavBar>
+      <Main>
+        <Box>
+          <MoviesList movies={movies} />
+        </Box>
+        <Box>
+          <WatchBoxSummary watched={watched} />
+          <WatchBoxList watched={watched} />
+        </Box>
+      </Main>
     </>
   );
 }
