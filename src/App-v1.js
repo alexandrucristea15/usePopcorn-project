@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NavBar from "./NavBar/NavBar";
 import Main from "./Main";
 import NumResults from "./NavBar/NumResults";
@@ -7,8 +7,6 @@ import MoviesList from "./Movies/MoviesList";
 import Box from "./Components/Box";
 import WatchBoxSummary from "./Watched/WatchBoxSummary";
 import WatchBoxList from "./Watched/WatchBoxList";
-import Loader from "./Components/Loader";
-import ErrorMessage from "./Components/ErrorMessage";
 
 const tempMovieData = [
   {
@@ -55,37 +53,10 @@ const tempWatchedData = [
     userRating: 9,
   },
 ];
-const KEY = "628dda5";
 
 export default function App() {
-  const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const query = "lord+of+the+ring";
-
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        setIsLoading(true);
-        const res = await fetch(
-          `http://www.omdbapi.com/?&apikey=${KEY}&s=${query}`
-        );
-
-        if (!res.ok) {
-          throw new Error("Something went wrong with fetching the movies");
-        }
-        const data = await res.json();
-        if (data.Response === "False") throw new Error("Movie not found");
-        setMovies(data.Search);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchMovies();
-  }, []);
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
 
   return (
     <>
@@ -95,9 +66,7 @@ export default function App() {
       </NavBar>
       <Main>
         <Box>
-          {isLoading && <Loader />}
-          {!isLoading && !error && <MoviesList movies={movies} />}
-          {error && <ErrorMessage message={error} />}
+          <MoviesList movies={movies} />
         </Box>
         <Box>
           <WatchBoxSummary watched={watched} />
