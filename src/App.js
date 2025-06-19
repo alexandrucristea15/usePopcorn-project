@@ -9,7 +9,7 @@ import WatchBoxSummary from "./Watched/WatchBoxSummary";
 import WatchBoxList from "./Watched/WatchBoxList";
 import Loader from "./Components/Loader";
 import ErrorMessage from "./Components/ErrorMessage";
-
+import MovieDetails from "./Watched/MovieDetails";
 const tempMovieData = [
   {
     imdbID: "tt1375666",
@@ -62,11 +62,21 @@ export default function App() {
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const query = "lord+of+the+ring";
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null); //"tt0120737");
+
+  const handelSelectMovie = (movieId) => {
+    selectedId === movieId ? setSelectedId(null) : setSelectedId(movieId);
+  };
+
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
+        setError("");
         setIsLoading(true);
         const res = await fetch(
           `http://www.omdbapi.com/?&apikey=${KEY}&s=${query}`
@@ -83,25 +93,42 @@ export default function App() {
       } finally {
         setIsLoading(false);
       }
+
+      if (!query.length) {
+        setMovies([]);
+        setError("");
+        return;
+      }
     };
     fetchMovies();
-  }, []);
+  }, [query]);
 
   return (
     <>
       <NavBar>
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </NavBar>
       <Main>
         <Box>
           {isLoading && <Loader />}
-          {!isLoading && !error && <MoviesList movies={movies} />}
+          {!isLoading && !error && (
+            <MoviesList movies={movies} onSelectMovie={handelSelectMovie} />
+          )}
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
-          <WatchBoxSummary watched={watched} />
-          <WatchBoxList watched={watched} />
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+            />
+          ) : (
+            <>
+              <WatchBoxSummary watched={watched} />
+              <WatchBoxList watched={watched} />
+            </>
+          )}
         </Box>
       </Main>
     </>
