@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import NavBar from "./NavBar/NavBar";
+import NavBar from "./Components/NavBar/NavBar";
 import Main from "./Main";
-import NumResults from "./NavBar/NumResults";
-import Search from "./NavBar/Search";
-import MoviesList from "./Movies/MoviesList";
-import Box from "./Components/Box";
-import WatchBoxSummary from "./Watched/WatchBoxSummary";
-import WatchBoxList from "./Watched/WatchBoxList";
-import Loader from "./Components/Loader";
-import ErrorMessage from "./Components/ErrorMessage";
-import MovieDetails from "./Watched/MovieDetails";
+import NumResults from "./Components/NavBar/NumResults";
+import Search from "./Components/NavBar/Search";
+import MoviesList from "./Components/Movies/MoviesList";
+import Box from "./Components/UI/Box";
+import WatchBoxSummary from "./Components/Watched/WatchBoxSummary";
+import WatchBoxList from "./Components/Watched/WatchBoxList";
+import Loader from "./Components/UI/Loader";
+import ErrorMessage from "./Components/UI/ErrorMessage";
+import MovieDetails from "./Components/MovieDetails/MovieDetails";
 const tempMovieData = [
   {
     imdbID: "tt1375666",
