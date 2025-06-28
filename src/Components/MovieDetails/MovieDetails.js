@@ -4,10 +4,11 @@ import Loader from "../UI/Loader";
 
 const KEY = "628dda5";
 
-const MovieDetails = ({ selectedId, onCloseMovie }) => {
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
   const [movie, setMovie] = useState({});
 
   const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
 
   const {
     Title: title,
@@ -21,6 +22,24 @@ const MovieDetails = ({ selectedId, onCloseMovie }) => {
     Director: director,
     Genre: genre,
   } = movie;
+
+  const currentMovieWatched = watched.find(
+    (movie) => movie.imdbID === selectedId
+  );
+
+  const handleAdd = () => {
+    const watchedMovie = {
+      imdbID: selectedId,
+      title,
+      poster,
+      imdbRating: Number(movie.imdbRating),
+      userRating,
+      runtime: Number(movie.Runtime.split(" ").at(0)),
+    };
+
+    onAddWatched(watchedMovie);
+    onCloseMovie();
+  };
 
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -49,7 +68,7 @@ const MovieDetails = ({ selectedId, onCloseMovie }) => {
             <div className="details-overview ">
               <h2>{title}</h2>
               <p>
-                {released} &bull; {runtime}
+                {released} &bull; {runtime} &bull; {year}
               </p>
               <p>{genre}</p>
               <p>
@@ -61,7 +80,24 @@ const MovieDetails = ({ selectedId, onCloseMovie }) => {
 
           <section>
             <div className="rating">
-              <StarRating maxRating={10} size={24} />
+              {currentMovieWatched && (
+                <p>
+                  You rated this movie a {currentMovieWatched.userRating}/10{" "}
+                  <span>⭐️</span>
+                </p>
+              )}
+              {!currentMovieWatched && (
+                <>
+                  <StarRating
+                    maxRating={10}
+                    size={24}
+                    onSetRating={(rating) => setUserRating(rating)}
+                  />
+                  <button className="btn-add" onClick={handleAdd}>
+                    + Add to the watched list{" "}
+                  </button>
+                </>
+              )}
             </div>
 
             <p>
