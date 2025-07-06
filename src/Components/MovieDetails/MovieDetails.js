@@ -6,7 +6,6 @@ const KEY = "628dda5";
 
 const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
   const [movie, setMovie] = useState({});
-
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState(0);
 
@@ -40,6 +39,26 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
     onAddWatched(watchedMovie);
     onCloseMovie();
   };
+
+  useEffect(() => {
+    const escapeCloseCallback = (e) => {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    };
+
+    document.addEventListener("keydown", escapeCloseCallback);
+
+    return () => {
+      document.removeEventListener("keydown", escapeCloseCallback);
+    };
+  }, [onCloseMovie]);
+
+  useEffect(() => {
+    if (!title) return;
+    document.title = `MOVIE: ${title}`;
+    return () => (document.title = "usePopcorn");
+  }, [title]);
 
   useEffect(() => {
     const getMovieDetails = async () => {
