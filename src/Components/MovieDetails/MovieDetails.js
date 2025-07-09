@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import StarRating from "../StarRating/StarRating";
 import Loader from "../UI/Loader";
+import { useKey } from "../../Hooks/useKey";
 
 const KEY = "628dda5";
 
@@ -49,19 +50,7 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
     onCloseMovie();
   };
 
-  useEffect(() => {
-    const escapeCloseCallback = (e) => {
-      if (e.code === "Escape") {
-        onCloseMovie();
-      }
-    };
-
-    document.addEventListener("keydown", escapeCloseCallback);
-
-    return () => {
-      document.removeEventListener("keydown", escapeCloseCallback);
-    };
-  }, [onCloseMovie]);
+  useKey("Escape", onCloseMovie);
 
   useEffect(() => {
     if (!title) return;
