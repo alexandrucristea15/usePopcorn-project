@@ -3,7 +3,7 @@ import StarRating from "../StarRating/StarRating";
 import Loader from "../UI/Loader";
 import { useKey } from "../../Hooks/useKey";
 
-const KEY = "628dda5";
+const KEY = process.env.REACT_APP_OMDB_KEY;
 
 const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
   const [movie, setMovie] = useState({});

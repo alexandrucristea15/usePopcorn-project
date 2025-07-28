@@ -28,6 +28,33 @@
 
 ---
 
+## 🔑 OMDb API Key Setup
+
+This project requires a free OMDb API key to fetch movie data.  
+**For security, the API key is not included in the repository.**
+
+### How to Get Your Own OMDb API Key
+
+1. Go to [http://www.omdbapi.com/apikey.aspx](http://www.omdbapi.com/apikey.aspx)
+2. Enter your email and request a free API key.
+3. Check your email for the API key (it may take a few minutes).
+
+### Setting Up Your API Key
+
+1. In the root of the project, create a file named `.env`
+2. Add the following line to `.env` (replace `your_api_key_here` with your actual key):
+
+   ```
+   REACT_APP_OMDB_KEY=your_api_key_here
+   ```
+
+3. Save the file.
+4. **Restart your development server** if it’s running (`npm start`).
+
+> **Note:** The `.env` file is ignored by git and will not be uploaded to GitHub.
+
+---
+
 ## 📦 Project Structure
 
 ```
@@ -51,10 +78,10 @@ src/
 ## 💡 Example: Custom Hook for Fetching Movies
 
 ```js
-// useMovies.js
+// filepath: src/Hooks/useMovies.js
 import { useEffect, useState } from "react";
 
-const KEY = "628dda5";
+const KEY = process.env.REACT_APP_OMDB_KEY;
 
 export const useMovies = (query) => {
   const [movies, setMovies] = useState([]);
@@ -133,11 +160,12 @@ export default function StarRating({ maxRating = 5, color = "#fcc419", ... }) {
    ```sh
    npm install
    ```
-2. **Start the development server:**
+2. **Set up your OMDb API key** (see above).
+3. **Start the development server:**
    ```sh
    npm start
    ```
-3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
@@ -158,3 +186,5 @@ This project was inspired by the [usePopcorn course project](https://www.udemy.c
 ---
 
 ## 📄 License
+
+MIT

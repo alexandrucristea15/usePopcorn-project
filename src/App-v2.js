@@ -11,7 +11,7 @@ import Loader from "./Components/UI/Loader";
 import ErrorMessage from "./Components/UI/ErrorMessage";
 import MovieDetails from "./Components/MovieDetails/MovieDetails";
 
-const KEY = "628dda5";
+const KEY = process.env.REACT_APP_OMDB_KEY;
 
 export default function App() {
   const [movies, setMovies] = useState([]);

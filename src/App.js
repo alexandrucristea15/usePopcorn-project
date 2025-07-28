@@ -57,7 +57,7 @@ import { useLocalStorageState } from "./Hooks/useLocalStorageState";
 //     userRating: 9,
 //   },
 // ];
-//const KEY = "628dda5";
+//const KEY = process.env.REACT_APP_OMDB_KEY;
 
 export default function App() {
   const [query, setQuery] = useState("");
